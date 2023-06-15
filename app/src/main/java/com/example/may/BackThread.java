@@ -47,9 +47,9 @@ public class BackThread extends Thread{
 
             String windInfo = json.getString("wind");
             JSONObject json2 = new JSONObject(windInfo);
-//            System.out.println("이:"+json2.getString("speed"));
-//            System.out.println("이:"+json2.getString("deg"));
-//            System.out.println("이:"+json2.getString("gust"));
+            System.out.println("이:"+json2.getString("speed"));
+            System.out.println("이:"+json2.getString("deg"));
+            //System.out.println("이:"+json2.getString("gust"));
 
 
 

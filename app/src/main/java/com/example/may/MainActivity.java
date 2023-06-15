@@ -19,9 +19,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BackThread tread = new BackThread(this.getApplicationContext());
-        //tread.start();
-        dustThread thread = new dustThread();
-        thread.start();
+        tread.start();
+        dustThread threadDust = new dustThread();
+        threadDust.start();
         weather = new todayWeather(this.getApplicationContext());
         sqlDB = weather.getWritableDatabase();
         //weather.onUpgrade(sqlDB,1,1); //테이블 초기화 코드

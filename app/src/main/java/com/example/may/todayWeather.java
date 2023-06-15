@@ -18,6 +18,7 @@ public class todayWeather extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE if not exists  " +
                 "current_Info (" +              //테이블 이름
+                "todayDate CHAR(100) PRIMARY KEY," +  //오늘 날짜
                 "temperature CHAR(100) , " +    //온도 //기본키로 쓰고 싶은 컬럼은 뒤에  PRIMARY KEY를 붙혀주면 됨
                 "MAX_temperature CHAR(100)," +  //최도온도
                 "MIN_temperature CHAR(100)," +  //최소온도

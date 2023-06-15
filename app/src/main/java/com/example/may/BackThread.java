@@ -6,6 +6,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -59,9 +61,21 @@ public class BackThread extends Thread{
             sqlDB = weather.getWritableDatabase();
             //weather.onUpgrade(sqlDB,1,1); //테이블 초기화 코드
             weather.onCreate(sqlDB);
+
+
+            long now = System.currentTimeMillis();
+            Date date = new Date(now);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String getTime = dateFormat.format(date);
+            String spliDate[] = getTime.split("-");
+            String sumDate="" ;
+            for(int i = 0; i<spliDate.length;i++){
+                sumDate+=spliDate[i];
+            }
+            //System.out.println(sumDate);
              try {
             sqlDB.execSQL("insert into " + "current_Info" +
-                    "(temperature,MAX_temperature,MIN_temperature,pressure,humidity,wind_speed,wind_degree) values ('" + temp + "', '" + temp_min + "','" + temp_max + "','"+pressure+"','"+humidity+"','" + json2.getString("speed")+"','" + json2.getString("deg")+"');");
+                    "(todayDate,temperature,MAX_temperature,MIN_temperature,pressure,humidity,wind_speed,wind_degree) values ('" + sumDate + "','" + temp + "', '" + temp_min + "','" + temp_max + "','"+pressure+"','"+humidity+"','" + json2.getString("speed")+"','" + json2.getString("deg")+"');");
         }catch (Exception e) {
             System.out.println(e);
         }

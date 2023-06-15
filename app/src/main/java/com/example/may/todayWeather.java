@@ -25,7 +25,8 @@ public class todayWeather extends SQLiteOpenHelper {
                 "pressure CHAR(100)," +         //기압
                 "humidity CHAR(100)," +         //습도
                 "wind_speed CHAR(100),"+    //풍속
-                "wind_degree CHAR(100)"+    //바람 위치
+                "wind_degree CHAR(100),"+    //바람 위치
+                "dust CHAR(100)"+    //미세먼지
                 ");");
     }
 

@@ -1,6 +1,7 @@
 package com.example.may;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +23,7 @@ public class BackThread extends Thread{
     }
     SQLiteDatabase sqlDB;
     todayWeather weather;
+
     //
     public void run() {
         OkHttpClient client = new OkHttpClient();
@@ -30,7 +32,10 @@ public class BackThread extends Thread{
                 get().addHeader("accept","application/json").
                 build();
 
-
+        Request request1 = new Request.Builder().
+                url("https://api.openweathermap.org/data/2.5/air_pollution?lat=35.83900501545771&lon=128.7610299483572&appid=944b4ec7c3a10a1bbb4a432d14e6f979").
+                get().addHeader("accept","application/json").
+                build();
         try {
             Response response = client.newCall(request).execute();
             ResponseBody body = response.body();
@@ -46,12 +51,18 @@ public class BackThread extends Thread{
             String temp_max = String.valueOf(Double.valueOf(json1.getString("temp_max"))-273).substring(0,5); //최소 온도
             String pressure = json1.getString("pressure");
             String humidity = json1.getString("humidity");
-
             String windInfo = json.getString("wind");
             JSONObject json2 = new JSONObject(windInfo);
-            System.out.println("이:"+json2.getString("speed"));
-            System.out.println("이:"+json2.getString("deg"));
-            //System.out.println("이:"+json2.getString("gust"));
+
+
+            Response responseDust = client.newCall(request1).execute();
+            ResponseBody b = responseDust.body();
+            JSONObject js = new JSONObject(b.string());
+            String dust = js.getString("list");
+            JSONObject js1 = new JSONObject(dust.substring(1, dust.length()-1));
+            String dust1 = js1.getString("components");
+            JSONObject js2 = new JSONObject(dust1);
+            String getDust = js2.getString("pm2_5");
 
 
 
@@ -72,13 +83,15 @@ public class BackThread extends Thread{
             for(int i = 0; i<spliDate.length;i++){
                 sumDate+=spliDate[i];
             }
-            //System.out.println(sumDate);
+
              try {
             sqlDB.execSQL("insert into " + "current_Info" +
-                    "(todayDate,temperature,MAX_temperature,MIN_temperature,pressure,humidity,wind_speed,wind_degree) values ('" + sumDate + "','" + temp + "', '" + temp_min + "','" + temp_max + "','"+pressure+"','"+humidity+"','" + json2.getString("speed")+"','" + json2.getString("deg")+"');");
+                    "(todayDate,temperature,MAX_temperature,MIN_temperature,pressure,humidity,wind_speed,wind_degree,dust) " +
+                    "values ('" + sumDate + "','" + temp + "', '" + temp_min + "','" + temp_max + "','"+pressure+"','"+humidity+"','" + json2.getString("speed")+"','" + json2.getString("deg")+"','" + getDust+"');");
         }catch (Exception e) {
             System.out.println(e);
         }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (JSONException e) {

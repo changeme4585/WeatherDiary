@@ -1,18 +1,12 @@
 package com.example.may;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.InvalidPropertiesFormatException;
+
 
 public class MainActivity extends AppCompatActivity {
     SQLiteDatabase sqlDB;
@@ -24,13 +18,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BackThread tread = new BackThread(this.getApplicationContext());
-        tread.start();
-        dustThread threadDust = new dustThread();
-        threadDust.start();
+
+//        dustThread threadDust = new dustThread();
+//        threadDust.start();
+
         weather = new todayWeather(this.getApplicationContext());
         sqlDB = weather.getWritableDatabase();
-        weather.onUpgrade(sqlDB,1,1); //테이블 초기화 코드
+       //weather.onUpgrade(sqlDB,1,1); //테이블 초기화 코드
         weather.onCreate(sqlDB);
 
         cursor = sqlDB.rawQuery("select * from current_Info;", null);
@@ -51,17 +45,26 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String getTime = dateFormat.format(date);
         String spliDate[] = getTime.split("-");
-        String sumDate="" ;
+        String currentDate="" ;
         for(int i = 0; i<spliDate.length;i++){
-            sumDate+=spliDate[i];
+            currentDate+=spliDate[i];  //현재 시간
         }
-        String query = "SELECT * FROM current_Info ORDER BY todayDate DESC LIMIT 1";
+        String recentDate = "";
         cursor1 = sqlDB.rawQuery("SELECT * FROM current_Info ORDER BY todayDate DESC LIMIT 1", null);
         if(cursor1.moveToLast()) { ///가장 최근값 (오늘 DB값을 넣음)
-            System.out.println("DB시간"+cursor1.getString(0));
+            recentDate= cursor1.getString(0);
         }
-        System.out.println("현재시간"+sumDate);
 
-
+        if(recentDate.equals(currentDate)) {
+            System.out.println("이미 있음");
+            System.out.println("미세먼지"+cursor1.getString(8));
+        }
+        else {
+            //DB에 오늘 호출한 데이터가 있으면 새로운 값을 insert 하지 않음
+            System.out.println("DB 갱신");
+            BackThread tread = new BackThread(this.getApplicationContext());
+            tread.start();
+            System.out.println("미세먼지"+cursor1.getString(8));
+        }
     }
 }

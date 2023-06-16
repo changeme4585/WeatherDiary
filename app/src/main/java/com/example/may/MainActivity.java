@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             tread.start();
             //System.out.println("미세먼지"+cursor1.getString(8));
         }
-        Button but = findViewById(R.id.button);
+        Button but = findViewById(R.id.button); //날씨 정보를 보여주는 버튼
         but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,5 +84,23 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button but1 = findViewById(R.id.button1); //오늘 챙겨야 할 준비물을 알려주는 버튼
+        but1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),weatherAlert.class);
+                intent.putExtra("date", cursor1.getString(0));
+                intent.putExtra("temp", cursor1.getString(1));
+                intent.putExtra("maxTemp", cursor1.getString(2));
+                intent.putExtra("minTemp", cursor1.getString(3));
+                intent.putExtra("pressure", cursor1.getString(4));
+                intent.putExtra("humidty", cursor1.getString(5));
+                intent.putExtra("wind", cursor1.getString(6));
+                intent.putExtra("dust", cursor1.getString(8));
+                startActivity(intent);
+            }
+        });
+
     }
 }

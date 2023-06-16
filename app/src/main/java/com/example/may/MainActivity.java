@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("pressure", cursor1.getString(4));
                 intent.putExtra("humidty", cursor1.getString(5));
                 intent.putExtra("wind", cursor1.getString(6));
+                intent.putExtra("direction", cursor1.getString(7));
                 intent.putExtra("dust", cursor1.getString(8));
                 mStartForResult.launch(intent);
             }
@@ -105,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("humidty", cursor1.getString(5));
                 intent.putExtra("wind", cursor1.getString(6));
                 intent.putExtra("dust", cursor1.getString(8));
-                //startActivity(intent);
                 mStartForResult.launch(intent);
             }
         });
@@ -116,6 +116,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast myToast = Toast.makeText(getApplicationContext(),"날씨 갱신완료",Toast.LENGTH_LONG);
                 myToast.show();
+            }
+        });
+
+        Button but3 = findViewById(R.id.button3);
+        but3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),pastInfo.class);
+                mStartForResult.launch(intent);
             }
         });
     }

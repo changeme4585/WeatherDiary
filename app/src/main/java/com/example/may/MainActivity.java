@@ -1,9 +1,14 @@
 package com.example.may;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -64,7 +69,20 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("DB 갱신");
             BackThread tread = new BackThread(this.getApplicationContext());
             tread.start();
-            System.out.println("미세먼지"+cursor1.getString(8));
+            //System.out.println("미세먼지"+cursor1.getString(8));
         }
+        Button but = findViewById(R.id.button);
+        but.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),weatherInfo.class);
+                intent.putExtra("temp", cursor1.getString(1));
+                intent.putExtra("pressure", cursor1.getString(4));
+                intent.putExtra("humidty", cursor1.getString(5));
+                intent.putExtra("wind", cursor1.getString(6));
+                intent.putExtra("dust", cursor1.getString(8));
+                startActivity(intent);
+            }
+        });
     }
 }

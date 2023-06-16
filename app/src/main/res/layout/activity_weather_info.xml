@@ -36,6 +36,11 @@
         android:layout_height="wrap_content"
         android:hint="Text 5"/>
 
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="뒤로가기" />
 
 
 </LinearLayout>

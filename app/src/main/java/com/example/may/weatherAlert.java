@@ -44,7 +44,7 @@ public class weatherAlert extends AppCompatActivity {
         if (wind>1){
             answer+="바람이 조금강해요\n";
         }
-        if (wind>3){
+        if (wind>2){
             answer+="바람이 많이 강해요. 헤어스프레이를 사용하세요\n";
         }
         if (dust<=30){

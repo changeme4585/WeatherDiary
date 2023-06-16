@@ -51,7 +51,7 @@ public class pastInfo extends AppCompatActivity {
                     answer+="최고기온: "+info.get(2)+"\n";
                     answer+="평균풍속: "+info.get(3)+"\n";
                     answer+="일일강수량: "+info.get(4)+"\n";
-
+                    answer+="평균습도: "+info.get(5)+"\n";
                     pastText.setText(answer);
                 }else{
                     pastText.setText("입력형식을 지켜주세요\n예): 2023년5월12일을 검색할 경우\n 20230512를 입력");
@@ -111,6 +111,7 @@ public class pastInfo extends AppCompatActivity {
                     }else {
                         info.add(json7.getString("sumRn")); //일일 강수량
                     }
+                    info.add(json7.getString("avgRhm")); //평균습도;
                 }else{ /// api 호출 오류
                     JSONObject json3 = new JSONObject(header);
                     errorMsg = json3.getString("resultMsg"); //오류 메시지를 저장

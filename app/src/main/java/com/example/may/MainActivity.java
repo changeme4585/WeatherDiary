@@ -19,6 +19,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
     SQLiteDatabase sqlDB;
     todayWeather weather;
+    BackThread tread;
     Cursor cursor;
     Cursor cursor1;
     private ActivityResultLauncher<Intent> mStartForResult;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             //DB에 오늘 호출한 데이터가 있으면 새로운 값을 insert 하지 않음
-            BackThread tread = new BackThread(this.getApplicationContext());
+            tread = new BackThread(this.getApplicationContext());
             tread.start();
         }
         Button but = findViewById(R.id.button); //날씨 정보를 보여주는 버튼
